@@ -1,0 +1,17 @@
+[package]
+name = "ddns-core"
+version = { workspace = true }
+edition = { workspace = true }
+
+[features]
+client = []
+server = []
+
+[dependencies]
+anyhow = { workspace = true }
+public-ip-address = { workspace = true }
+thiserror = { workspace = true }
+tonic = { workspace = true }
+tonic-types = { workspace = true }
+[build-dependencies]
+tonic-prost-build = "0.14.1"
