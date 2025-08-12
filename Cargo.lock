@@ -170,7 +170,6 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "ddns-core",
- "reqwest",
  "tokio",
 ]
 
@@ -179,9 +178,11 @@ name = "ddns-core"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "prost",
  "public-ip-address",
  "thiserror",
  "tonic",
+ "tonic-prost",
  "tonic-prost-build",
  "tonic-types",
 ]
@@ -189,6 +190,11 @@ dependencies = [
 [[package]]
 name = "ddns-server"
 version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "ddns-core",
+ "tokio",
+]
 
 [[package]]
 name = "displaydoc"
@@ -1511,6 +1517,17 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn",
+]
+
+[[package]]
+name = "tonic-prost"
+version = "0.14.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b9c511b9a96d40cb12b7d5d00464446acf3b9105fd3ce25437cfe41c92b1c87d"
+dependencies = [
+ "bytes",
+ "prost",
+ "tonic",
 ]
 
 [[package]]
