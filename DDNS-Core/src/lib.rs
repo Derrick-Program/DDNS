@@ -3,10 +3,9 @@ pub mod generated;
 pub use generated::*;
 pub mod error;
 mod providers;
-
 #[cfg(feature = "provider-cloudflare")]
 pub use crate::providers::cloudflare as provider;
-
+pub use crate::providers::{DnsProvider, RecordIdentifier};
 pub extern crate tonic;
 pub extern crate tonic_prost;
 pub extern crate tonic_types;
