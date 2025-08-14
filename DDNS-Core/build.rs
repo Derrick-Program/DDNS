@@ -1,56 +1,36 @@
 use std::{env, fs, path::Path};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    println!("cargo:rerun-if-env-changed=CARGO_FEATURE");
+    validate_provider_feature();
     let crate_root = Path::new(&env::var("CARGO_MANIFEST_DIR")?).to_owned();
     let out_dir = crate_root.join("src/generated");
+    let protoc = protoc_bin_vendored::protoc_bin_path().unwrap();
+    unsafe {
+        env::set_var("PROTOC", protoc);
+    }
+    let proto_include = protoc_bin_vendored::include_path().unwrap();
     if !out_dir.exists() {
         fs::create_dir_all(&out_dir)?;
     }
-    let proto_root = crate_root.join("proto");
-    for entry in fs::read_dir(&proto_root)? {
-        let path = entry?.path();
-        if path.extension().and_then(|e| e.to_str()) != Some("proto") {
-            continue;
-        }
-        println!("cargo:rerun-if-changed={}", path.display());
-        let stem = path.file_stem().and_then(|s| s.to_str()).expect("檔名一定要是 valid UTF-8");
-        let feature_client = format!("CARGO_FEATURE_{}_CLIENT", stem.to_uppercase());
-        let feature_server = format!("CARGO_FEATURE_{}_SERVER", stem.to_uppercase());
-        if env::var(&feature_client).is_err() && env::var(&feature_server).is_err() {
-            continue;
-        }
-        let want_client = env::var(&feature_client).is_ok();
-        let want_server = env::var(&feature_server).is_ok();
-        let generated_rs = out_dir.join(format!("{stem}.rs"));
-        if generated_rs.exists() {
-            let proto_meta = fs::metadata(&path)?.modified()?;
-            let gen_meta = fs::metadata(&generated_rs)?.modified()?;
-            if gen_meta >= proto_meta {
-                println!("skip compiling {stem} (up to date)");
-                continue;
-            }
-        }
-        tonic_prost_build::configure()
-            .out_dir(&out_dir)
-            .client_mod_attribute(stem, format!("#[cfg(feature = \"{stem}-client\")]"))
-            .server_mod_attribute(stem, format!("#[cfg(feature = \"{stem}-server\")]"))
-            .build_client(want_client)
-            .build_server(want_server)
-            .compile_protos(&[&path], &[&proto_root])?;
-    }
-    let mut mod_rs = String::new();
-    for entry in fs::read_dir(&proto_root)? {
-        let p = entry?.path();
-        if p.extension().and_then(|e| e.to_str()) != Some("proto") {
-            continue;
-        }
-        let stem = p.file_stem().unwrap().to_str().unwrap();
-        mod_rs +=
-            &format!("#[cfg(any(feature = \"{stem}-client\", feature = \"{stem}-server\"))]\n",);
-        mod_rs += &format!("pub mod {stem};\n\n",);
-    }
-    fs::write(out_dir.join("mod.rs"), mod_rs)?;
-
+    tonic_prost_build::configure()
+        .out_dir(&out_dir)
+        .build_client(true)
+        .build_server(true)
+        .compile_protos(&["./proto/ddns.proto"], &["./proto", proto_include.to_str().unwrap()])?;
+    println!("cargo:rerun-if-changed=proto/ddns.proto");
     Ok(())
+}
+fn validate_provider_feature() {
+    let count =
+        env::vars().filter(|(k, v)| k.starts_with("CARGO_FEATURE_PROVIDER_") && v == "1").count();
+
+    if count > 1 {
+        panic!(
+            "Only one provider feature may be enabled at a time. Prefix providers with \
+             `provider-` and enable exactly one (e.g., `--features provider-cloudflare`)."
+        );
+    }
+    // if count == 0 {
+    //     println!("cargo:warning=No provider feature enabled. Build will
+    // proceed without a concrete DNS provider."); }
 }

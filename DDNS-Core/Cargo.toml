@@ -3,10 +3,6 @@ name = "ddns-core"
 version = { workspace = true }
 edition = { workspace = true }
 
-[features]
-ddns-client = []
-ddns-server = []
-
 [dependencies]
 anyhow = { workspace = true }
 public-ip-address = { workspace = true }
@@ -15,5 +11,15 @@ tonic = { workspace = true }
 tonic-types = { workspace = true }
 prost = "0.14.1"
 tonic-prost = "0.14.1"
+reqwest = { workspace = true, features = ["json"] }
+serde = { version = "1.0.219", features = ["derive"] }
+serde_json = "1.0.142"
+chrono = { version = "0.4.41", features = ["serde"] }
 [build-dependencies]
+protoc-bin-vendored = "3.2.0"
 tonic-prost-build = "0.14.1"
+[features]
+provider-cloudflare = []
+[dev-dependencies]
+ddns-core = { path = "../DDNS-Core", features = ["provider-cloudflare"] }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }

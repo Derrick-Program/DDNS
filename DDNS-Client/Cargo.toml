@@ -1,9 +1,13 @@
 [package]
 name = "ddns-client"
-version =  { workspace = true }
+version = { workspace = true }
 edition = { workspace = true }
 
 [dependencies]
 anyhow = { workspace = true }
 tokio = { workspace = true }
-ddns-core = { workspace = true , features = ["ddns-client"] }
+ddns-core = { workspace = true }
+argh = { workspace = true }
+secrecy = { workspace = true }
+cliclack = { workspace = true }
+atty = { workspace = true }

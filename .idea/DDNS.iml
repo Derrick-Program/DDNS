@@ -5,6 +5,8 @@
       <sourceFolder url="file://$MODULE_DIR$/DDNS-Client/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/DDNS-Core/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/DDNS-Server/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/DDNS-Core/examples" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/httpRequests" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
