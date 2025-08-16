@@ -10,7 +10,7 @@ mod parser;
 
 #[tokio::main(flavor = "multi_thread")]
 async fn main() -> anyhow::Result<()> {
-    cli()?;
+    cli().await?;
     // let addr = "[::1]:50051".parse()?;
     // let auth_service = crate::grpc::MyAuthService::default();
     // let hello_service = crate::grpc::MyHelloService::default();
