@@ -1,6 +1,5 @@
 use crate::cli::cli;
 use anyhow::Result;
-use ddns_core::get_public_ip;
 
 mod cli;
 mod grpc;

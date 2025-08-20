@@ -1,7 +1,4 @@
-use crate::{
-    parser,
-    parser::{Args, Auth},
-};
+use crate::parser;
 use anyhow::{Context, Result, bail};
 use secrecy::{ExposeSecret, SecretString};
 use std::{io, io::BufRead};

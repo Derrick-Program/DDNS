@@ -13,7 +13,7 @@ pub(crate) async fn cli() -> Result<()> {
         },
         None => {
             if args.version {
-                println!("{}", format!("Version: {}", env!("CARGO_PKG_VERSION")));
+                println!("{}", format_args!("Version: {}", env!("CARGO_PKG_VERSION")));
             } else if args.debug {
                 debug().await?;
             } else {

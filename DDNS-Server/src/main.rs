@@ -1,8 +1,4 @@
 use crate::cli::cli;
-use ddns_core::{
-    ddns::{auth_service_server::AuthServiceServer, hello_service_server::HelloServiceServer},
-    tonic,
-};
 
 mod cli;
 mod grpc;
