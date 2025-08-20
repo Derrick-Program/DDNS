@@ -10,4 +10,4 @@ tokio = { workspace = true }
 rand = { workspace = true }
 base64 = { workspace = true }
 argh = { workspace = true }
-
+tonic = { workspace = true }

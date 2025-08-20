@@ -11,3 +11,4 @@ argh = { workspace = true }
 secrecy = { workspace = true }
 cliclack = { workspace = true }
 atty = { workspace = true }
+tonic = { workspace = true }

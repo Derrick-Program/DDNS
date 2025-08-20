@@ -291,6 +291,7 @@ dependencies = [
  "ddns-core",
  "secrecy",
  "tokio",
+ "tonic",
 ]
 
 [[package]]
@@ -324,6 +325,7 @@ dependencies = [
  "ddns-core",
  "rand",
  "tokio",
+ "tonic",
 ]
 
 [[package]]
