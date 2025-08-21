@@ -10,3 +10,5 @@
 TODO.md
 /DDNS-Server/certs/
 !/DDNS-Server/certs/.gitkeep
+/DDNS-Server/db/
+!/DDNS-Server/db/.gitkeep
