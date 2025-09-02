@@ -11,20 +11,31 @@ mod grpc;
 mod parser;
 
 #[tokio::main(flavor = "multi_thread")]
-async fn main() -> anyhow::Result<()> {
+async fn main() -> Result<()> {
     cli().await?;
     Ok(())
 }
 
-pub(crate) async fn cli() -> anyhow::Result<()> {
+pub(crate) async fn cli() -> Result<()> {
     let args = parser::parse_args();
     match args.cmd {
         Some(parser::Cmd::Server(server)) => start_grpc_server(server).await?,
-        Some(parser::Cmd::User(user)) => match user.action {
-            parser::UserAction::Add(add) => {}
-            parser::UserAction::Rm(rm) => {}
-            parser::UserAction::List(_) => {}
-        },
+        Some(parser::Cmd::User(user)) => {
+            return match user.action {
+                parser::UserAction::Add(add) => {
+                    dbg!(add);
+                    Ok(())
+                }
+                parser::UserAction::Rm(rm) => {
+                    dbg!(rm);
+                    Ok(())
+                }
+                parser::UserAction::List(list) => {
+                    dbg!(list);
+                    Ok(())
+                }
+            };
+        }
         None => {
             if args.version {
                 println!("{}", format_args!("Version: {}", env!("CARGO_PKG_VERSION")));
@@ -38,7 +49,7 @@ pub(crate) async fn cli() -> anyhow::Result<()> {
     Ok(())
 }
 
-async fn debug() -> anyhow::Result<()> {
+async fn debug() -> Result<()> {
     println!("Debug mode is enabled. No server will be started.");
     // List Zone
     // env var => DUACODIE_DDNS_CLIENT_API_TOKEN or DUACODIE_DDNS_SERVER_API_TOKEN
@@ -46,7 +57,7 @@ async fn debug() -> anyhow::Result<()> {
         .expect("DUACODIE_DDNS_SERVER_API_TOKEN must be set");
     let provider = ddns_core::provider::CloudflareProvider::new(token, None, None);
     let zones = provider.list_zone().await?;
-    println!("{:#?}", zones);
+    println!("{zones:#?}");
     Ok(())
 }
 

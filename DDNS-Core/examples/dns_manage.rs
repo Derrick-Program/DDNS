@@ -18,7 +18,7 @@ async fn create_new_record(provider: &CloudflareProvider) -> Result<()> {
     let binding = ddns_core::get_public_ip().await?.to_string();
     let ip = binding.as_str();
     let id = provider.create_record("test.duacodie.com", Some(3600), "A", None, ip, false).await?;
-    println!("Created record: {}", id);
+    println!("Created record: {id}");
     Ok(())
 }
 
@@ -27,13 +27,13 @@ async fn update_record(provider: &CloudflareProvider) -> Result<()> {
     let id = provider
         .update_record(RecordIdentifier::Name("test.duacodie.com"), "163.20.165.59")
         .await?;
-    println!("Updated record: {}", id);
+    println!("Updated record: {id}");
     Ok(())
 }
 async fn delete_record(provider: &CloudflareProvider) -> Result<()> {
     // Delete the record
     let id = provider.delete_record(RecordIdentifier::Name("test.duacodie.com")).await?;
-    println!("Deleted record: {}", id);
+    println!("Deleted record: {id}");
     Ok(())
 }
 
@@ -41,7 +41,7 @@ async fn list_records(provider: &CloudflareProvider) -> Result<()> {
     let records = provider.list_records().await?;
     println!("可用的 DNS 記錄列表：");
     for (id, name, content) in records {
-        println!("ID: {}, Name: {}, Content: {}", id, name, content);
+        println!("ID: {id}, Name: {name}, Content: {content}");
     }
     Ok(())
 }
@@ -51,11 +51,11 @@ async fn search_record(provider: &CloudflareProvider, name: &str) -> Result<Opti
     let record_id = provider.get_record_id(name).await?;
     match record_id {
         Some(id) => {
-            println!("Record ID for '{}': {}", name, id);
+            println!("Record ID for '{name}': {id}");
             Ok(Some(id))
         }
         None => {
-            println!("未找到 '{}' 的記錄 ID", name);
+            println!("未找到 '{name}' 的記錄 ID");
             Ok(None)
         }
     }

@@ -10,11 +10,11 @@ async fn main() -> Result<()> {
     // cli()?;
     // let public_ip = get_public_ip().await?;
     // println!("Public IP: {}", public_ip);
-    let server_address = "https://127.0.0.1:50051";
+    let server_address = "https://ddns.duacodie.com:50051";
     let mut grpc_client = grpc::GrpcClient::connect(server_address).await?;
     match grpc_client.login("admin", "password").await {
         Ok(token) => {
-            println!("Login successful: {}", token);
+            println!("Login successful: {token}");
         }
         Err(_) => {
             eprintln!("Login failed");
@@ -22,7 +22,7 @@ async fn main() -> Result<()> {
         }
     }
     let msg = grpc_client.hello("derrick").await?;
-    println!("GRPC Response: {:?}", msg);
+    println!("GRPC Response: {msg:?}");
     Ok(())
 }
 

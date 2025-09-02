@@ -40,8 +40,8 @@ pub struct ServerCmd {
     #[argh(
         option,
         short = 'h',
-        default = "String::from(\"[::1]\")",
-        description = "伺服器監聽的主機地址，預設為 [::1]（IPv6 localhost）"
+        default = "String::from(\"127.0.0.1\")",
+        description = "伺服器監聽的主機地址，預設為 [127.0.0.1]（localhost）"
     )]
     pub host: String,
 }
