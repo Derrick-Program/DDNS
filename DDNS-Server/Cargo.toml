@@ -12,3 +12,9 @@ base64 = { workspace = true }
 argh = { workspace = true }
 tonic = { workspace = true }
 sqlx = { version = "0.8.6", default-features = false, features = ["sqlite", "macros", "chrono"] }
+serde = { version = "1.0.219", features = ["derive"] }
+chrono = { workspace = true, features = ["serde"] }
+uuid = { version = "1.18.1", features = ["v4", "serde"] }
+serde_json = { workspace = true }
+hmac = "0.12.1"
+sha2 = "0.10.9"

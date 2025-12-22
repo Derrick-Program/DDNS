@@ -12,3 +12,4 @@ TODO.md
 !/DDNS-Server/certs/.gitkeep
 /DDNS-Server/db/
 !/DDNS-Server/db/.gitkeep
+/change_TXT.sh

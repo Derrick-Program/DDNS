@@ -9,6 +9,7 @@ use tonic::transport::{Identity, ServerTlsConfig};
 
 mod grpc;
 mod parser;
+mod token;
 
 #[tokio::main(flavor = "multi_thread")]
 async fn main() -> Result<()> {
