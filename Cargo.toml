@@ -25,3 +25,4 @@ tonic-prost = "0.14.1"
 serde = { version = "1.0.219", features = ["derive"] }
 serde_json = "1.0.142"
 chrono = { version = "0.4.41", features = ["serde"] }
+cloudflare = "0.14.0"
