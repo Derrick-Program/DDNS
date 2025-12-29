@@ -1,0 +1,18 @@
+[package]
+name = "ddns-client"
+version = { workspace = true }
+edition = { workspace = true }
+authors = { workspace = true }
+description = { workspace = true }
+license = { workspace = true }
+categories = { workspace = true }
+keywords = { workspace = true }
+
+[dependencies]
+anyhow = { workspace = true }
+clap = { workspace = true }
+atty = { workspace = true }
+cliclack = { workspace = true }
+public-ip-address = { workspace = true }
+secrecy = { workspace = true }
+tokio = { workspace = true }

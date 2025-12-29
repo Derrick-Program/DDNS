@@ -1,28 +1,30 @@
+[workspace]
+members = ["gen/client", "gen/server", "crates/ddns-client", "crates/ddns-server", "crates/ddns-shared"]
+resolver = "2"
 [workspace.package]
 version = "0.1.0"
 edition = "2024"
-[workspace]
-members = ["DDNS-Client", "DDNS-Core", "DDNS-Server"]
-resolver = "2"
+authors = ["YanKai Lin <dlin12457@gmail.com>"]
+description = "A Dynamic DNS service implemented in Rust"
+license = "MIT OR Apache-2.0"
+categories = ["network-programming", "dns"]
+keywords = ["cloudflare", "api", "client"]
 [workspace.dependencies]
 anyhow = "1.0.99"
-public-ip-address = "0.3.5"
-reqwest = "0.12.22"
-tokio = { version = "1.47.1", features = ["macros", "rt-multi-thread"] }
-tonic = "0.14.1"
-tonic-types = "0.14.1"
-thiserror = "2.0.14"
-ddns-core = { path = "./DDNS-Core" }
-argh = "0.1.13"
-secrecy = "0.10.3"
-cliclack = "0.3.6"
-atty = "0.2.14"
-rand = "0.9.2"
-base64 = "0.22.1"
 argon2 = "0.5.3"
+atty = "0.2.14"
+base64 = "0.22.1"
+chrono = { version = "0.4.41", features = ["serde"] }
+cliclack = "0.3.6"
+cloudflare = "0.14.0"
+clap = { version = "4.5.53", features = ["derive", "env"] }
 prost = "0.14.1"
-tonic-prost = "0.14.1"
+public-ip-address = "0.3.5"
+rand = "0.9.2"
+reqwest = "0.12.22"
+secrecy = "0.10.3"
 serde = { version = "1.0.219", features = ["derive"] }
 serde_json = "1.0.142"
-chrono = { version = "0.4.41", features = ["serde"] }
-cloudflare = "0.14.0"
+thiserror = "2.0.14"
+tokio = { version = "1.47.1", features = ["macros", "rt-multi-thread"] }
+tonic-prost = "0.14.1"

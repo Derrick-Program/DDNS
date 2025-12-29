@@ -1,0 +1,114 @@
+use async_trait::async_trait;
+use axum::extract::*;
+use axum_extra::extract::{CookieJar, Host};
+use bytes::Bytes;
+use http::Method;
+use serde::{Deserialize, Serialize};
+
+use crate::{models, types::*};
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
+pub enum AuthLoginResponse {
+    /// The request has succeeded.
+    Status200_TheRequestHasSucceeded
+    (models::AuthLogin200Response)
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
+pub enum AuthLogoutResponse {
+    /// The request has succeeded.
+    Status200_TheRequestHasSucceeded
+    (models::ErrorResponse)
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
+pub enum AuthRefreshResponse {
+    /// The request has succeeded.
+    Status200_TheRequestHasSucceeded
+    (models::AuthLogin200Response)
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
+pub enum RecordsListResponse {
+    /// The request has succeeded.
+    Status200_TheRequestHasSucceeded
+    (models::RecordsList200Response)
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
+pub enum UpdatesUpdateResponse {
+    /// The request has succeeded.
+    Status200_TheRequestHasSucceeded
+    (models::UpdatesUpdate200Response)
+}
+
+
+
+
+/// Default
+#[async_trait]
+#[allow(clippy::ptr_arg)]
+pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHandler<E> {
+    type Claims;
+
+    /// AuthLogin - POST /auth/login
+    async fn auth_login(
+    &self,
+    
+    method: &Method,
+    host: &Host,
+    cookies: &CookieJar,
+            body: &models::LoginRequest,
+    ) -> Result<AuthLoginResponse, E>;
+
+    /// AuthLogout - POST /auth/logout
+    async fn auth_logout(
+    &self,
+    
+    method: &Method,
+    host: &Host,
+    cookies: &CookieJar,
+            body: &models::LogoutRequest,
+    ) -> Result<AuthLogoutResponse, E>;
+
+    /// AuthRefresh - POST /auth/refresh
+    async fn auth_refresh(
+    &self,
+    
+    method: &Method,
+    host: &Host,
+    cookies: &CookieJar,
+            body: &models::RefreshRequest,
+    ) -> Result<AuthRefreshResponse, E>;
+
+    /// RecordsList - GET /records
+    async fn records_list(
+    &self,
+    
+    method: &Method,
+    host: &Host,
+    cookies: &CookieJar,
+        claims: &Self::Claims,
+    ) -> Result<RecordsListResponse, E>;
+
+    /// UpdatesUpdate - POST /records:update
+    async fn updates_update(
+    &self,
+    
+    method: &Method,
+    host: &Host,
+    cookies: &CookieJar,
+        claims: &Self::Claims,
+            body: &models::UpdateRecordRequest,
+    ) -> Result<UpdatesUpdateResponse, E>;
+}

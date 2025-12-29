@@ -14,3 +14,4 @@ TODO.md
 !/DDNS-Server/db/.gitkeep
 /change_TXT.sh
 /pki
+/.env

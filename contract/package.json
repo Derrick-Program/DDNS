@@ -1,0 +1,24 @@
+{
+  "name": "DDNS-API-contract",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "compile": "tsp compile .",
+    "gen:server": "pnpm run compile && pnpm run gen:server:from:openapi",
+    "gen:client": "pnpm run compile && pnpm run gen:client:from:openapi",
+    "gen:all": "pnpm run gen:server && pnpm run gen:client",
+    "gen:server:from:openapi": "openapi-generator-cli generate -g rust-axum -i ./tsp-output/schema/openapi.yaml -o ../gen/server",
+    "gen:client:from:openapi": "openapi-generator-cli generate -g rust -i ./tsp-output/schema/openapi.yaml -o ../gen/client --additional-properties=packageName=todo_client,library=reqwest,supportAsync=true"
+  },
+  "dependencies": {
+    "@typespec/compiler": "latest",
+    "@typespec/http": "latest",
+    "@typespec/rest": "latest",
+    "@typespec/openapi": "latest",
+    "@typespec/openapi3": "latest"
+  },
+  "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.23.0"
+  }
+}
