@@ -11,7 +11,6 @@ using TypeSpec.OpenAPI;
 @info(#{ version: "0.1.0" })
 @doc("This is the API specification for the Dynamic DNS Service (DDNS). It allows users to authenticate, manage DNS records, and update their IP addresses dynamically.")
 @server("https://ddns.duacodie.com", "Production")
-@server("http://127.0.0.1:8080", "Local Development")
 namespace Ddns;
 
 enum IpFamily {

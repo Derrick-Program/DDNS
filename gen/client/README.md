@@ -22,7 +22,7 @@ todo_client = { path = "./todo_client" }
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *http://127.0.0.1:8080*
+All URIs are relative to *https://ddns.duacodie.com*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
