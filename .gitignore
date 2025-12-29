@@ -8,10 +8,10 @@
 /dataSources.local.xml
 /target
 TODO.md
-/DDNS-Server/certs/
-!/DDNS-Server/certs/.gitkeep
-/DDNS-Server/db/
-!/DDNS-Server/db/.gitkeep
+/crates/ddns-server/certs/*
+!/crates/ddns-server/certs/.gitkeep
+/crates/ddns-server/db/
+!/crates/ddns-server/db/.gitkeep
 /change_TXT.sh
 /pki
 /.env
