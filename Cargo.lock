@@ -597,6 +597,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "ddns-config"
+version = "0.1.0"
+dependencies = [
+ "dotenvy",
+]
+
+[[package]]
 name = "ddns-server"
 version = "0.1.0"
 dependencies = [

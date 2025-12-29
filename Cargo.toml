@@ -1,5 +1,5 @@
 [workspace]
-members = ["gen/client", "gen/server", "crates/ddns-client", "crates/ddns-server", "crates/ddns-shared"]
+members = ["gen/client", "gen/server", "crates/ddns-client", "crates/ddns-server", "crates/ddns-shared", "crates/ddns-config"]
 resolver = "2"
 [workspace.package]
 version = "0.1.0"
@@ -28,3 +28,5 @@ serde_json = "1.0.142"
 thiserror = "2.0.14"
 tokio = { version = "1.47.1", features = ["macros", "rt-multi-thread"] }
 tonic-prost = "0.14.1"
+ddns-config = { path = "crates/ddns-config" }
+ddns-shared = { path = "crates/ddns-shared" }
