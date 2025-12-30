@@ -10,7 +10,7 @@
 TODO.md
 /crates/ddns-server/certs/*
 !/crates/ddns-server/certs/.gitkeep
-/crates/ddns-server/db/
+/crates/ddns-server/db/*
 !/crates/ddns-server/db/.gitkeep
 /change_TXT.sh
 /pki
