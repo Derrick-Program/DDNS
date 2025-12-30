@@ -23,6 +23,9 @@ sqlx = { version = "0.8.6", default-features = false, features = [
     "sqlite",
     "macros",
     "chrono",
+    "ipnet",
+    "uuid",
+    "runtime-tokio"
 ] }
 tokio = { workspace = true }
 uuid = { version = "1.18.1", features = ["v4", "serde"] }
