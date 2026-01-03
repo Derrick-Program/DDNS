@@ -23,6 +23,12 @@
         lib = pkgs.lib;
         rustToolchain = pkgs.rust-bin.fromRustupToolchainFile ./rust-toolchain.toml;
         craneLib = (crane.mkLib pkgs).overrideToolchain rustToolchain;
+        appleSdk =
+          if pkgs ? apple-sdk then pkgs.apple-sdk
+          else if pkgs ? apple-sdk_15 then pkgs.apple-sdk_15
+          else if pkgs ? apple-sdk_14 then pkgs.apple-sdk_14
+          else if pkgs ? apple-sdk_13 then pkgs.apple-sdk_13
+          else null;
         src = craneLib.cleanCargoSource ./.;
         commonNativeBuildInputs = with pkgs; [
           pkg-config
@@ -31,11 +37,9 @@
           openssl
           sqlite
         ]
-        ++ lib.optionals pkgs.stdenv.isDarwin [
-          pkgs.darwin.apple_sdk.frameworks.Security
-          pkgs.darwin.apple_sdk.frameworks.SystemConfiguration
-          pkgs.darwin.apple_sdk.frameworks.CoreFoundation
-        ];
+        ++ lib.optionals pkgs.stdenv.isDarwin (
+            lib.optional (appleSdk != null) appleSdk
+        );
         cargoArtifacts = craneLib.buildDepsOnly {
           inherit src;
           nativeBuildInputs = commonNativeBuildInputs;
