@@ -16,3 +16,4 @@ TODO.md
 /pki
 /.env.*
 !/.env.example
+/.direnv
