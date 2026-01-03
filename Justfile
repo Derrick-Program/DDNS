@@ -1,6 +1,7 @@
 set shell := ["bash", "-uc"]
 
 default:
+    @echo "⚠️  Please run 'nix develop' first"
     @just --list
 
 run package *args='':

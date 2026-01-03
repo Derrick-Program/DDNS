@@ -67,6 +67,7 @@
           apps = {
             ddns-server = flake-utils.lib.mkApp { drv = ddns-server; };
             ddns-client = flake-utils.lib.mkApp { drv = ddns-client; };
+            just = { type = "app"; program = "${pkgs.just}/bin/just"; };
             default = flake-utils.lib.mkApp { drv = ddns-server; };
           };
           checks = {

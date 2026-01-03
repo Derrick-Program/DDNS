@@ -1,3 +1,5 @@
+[workspace.metadata.crane]
+name = "ddns-workspace"
 [workspace]
 members = ["gen/client", "gen/server", "crates/ddns-client", "crates/ddns-server", "crates/ddns-shared", "crates/ddns-config"]
 resolver = "2"
