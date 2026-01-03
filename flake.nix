@@ -100,25 +100,18 @@
               rustToolchain
               cargo-edit
               rust-analyzer
-
               just
               git
               openssl
               sqlite
               pkg-config
-
-              # SQLx（若你用 sqlite 的 migrations）
               sqlx-cli
-
-              # contract / gen 用（TypeSpec + openapi-generator-cli 常用）
               nodejs_24
               pnpm
             ]
             ++ lib.optionals pkgs.stdenv.isDarwin [
               pkgs.libiconv
             ];
-
-            # 常見 Rust/OpenSSL 編譯環境變數（避免找不到 header/lib）
             shellHook = ''
               export RUST_BACKTRACE=1
               export OPENSSL_DIR=${pkgs.openssl.dev}
