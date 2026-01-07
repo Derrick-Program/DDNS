@@ -8,7 +8,7 @@ Method | HTTP request | Description
 [**auth_logout**](DefaultApi.md#auth_logout) | **POST** /auth/logout | 
 [**auth_refresh**](DefaultApi.md#auth_refresh) | **POST** /auth/refresh | 
 [**records_list**](DefaultApi.md#records_list) | **GET** /records | 
-[**updates_update**](DefaultApi.md#updates_update) | **POST** /records:update | 
+[**updates_update**](DefaultApi.md#updates_update) | **POST** /records/{recordId}:update | 
 
 
 
@@ -111,7 +111,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[BearerAuth](../README.md#BearerAuth)
+No authorization required
 
 ### HTTP request headers
 
@@ -123,7 +123,7 @@ This endpoint does not need any parameter.
 
 ## updates_update
 
-> models::UpdatesUpdate200Response updates_update(update_record_request)
+> models::UpdatesUpdate200Response updates_update(record_id, update_record_request)
 
 
 ### Parameters
@@ -131,6 +131,7 @@ This endpoint does not need any parameter.
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
+**record_id** | **String** |  | [required] |
 **update_record_request** | [**UpdateRecordRequest**](UpdateRecordRequest.md) |  | [required] |
 
 ### Return type
@@ -139,7 +140,7 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-[BearerAuth](../README.md#BearerAuth)
+No authorization required
 
 ### HTTP request headers
 

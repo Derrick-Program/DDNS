@@ -1,9 +1,9 @@
 pub mod auth_login_200_response;
 pub use self::auth_login_200_response::AuthLogin200Response;
+pub mod error_code;
+pub use self::error_code::ErrorCode;
 pub mod error_response;
 pub use self::error_response::ErrorResponse;
-pub mod ip_family;
-pub use self::ip_family::IpFamily;
 pub mod list_records_response;
 pub use self::list_records_response::ListRecordsResponse;
 pub mod login_request;

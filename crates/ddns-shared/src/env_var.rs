@@ -1,5 +1,5 @@
-use std::env;
 use dotenvy::from_filename;
+use std::env;
 
 pub fn from_env() {
     let app_env = env::var("DDNS_APP_ENV").unwrap_or_else(|_| "prod".to_string());

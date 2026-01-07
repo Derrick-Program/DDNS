@@ -4,8 +4,8 @@ Cargo.toml
 README.md
 docs/AuthLogin200Response.md
 docs/DefaultApi.md
+docs/ErrorCode.md
 docs/ErrorResponse.md
-docs/IpFamily.md
 docs/ListRecordsResponse.md
 docs/LoginRequest.md
 docs/LogoutRequest.md
@@ -22,8 +22,8 @@ src/apis/default_api.rs
 src/apis/mod.rs
 src/lib.rs
 src/models/auth_login_200_response.rs
+src/models/error_code.rs
 src/models/error_response.rs
-src/models/ip_family.rs
 src/models/list_records_response.rs
 src/models/login_request.rs
 src/models/logout_request.rs

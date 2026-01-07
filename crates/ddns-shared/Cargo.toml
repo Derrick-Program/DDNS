@@ -9,3 +9,5 @@ categories.workspace = true
 keywords.workspace = true
 
 [dependencies]
+dotenvy = "0.15.7"
+thiserror = { workspace = true }

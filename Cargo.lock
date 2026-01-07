@@ -597,13 +597,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "ddns-config"
-version = "0.1.0"
-dependencies = [
- "dotenvy",
-]
-
-[[package]]
 name = "ddns-server"
 version = "0.1.0"
 dependencies = [
@@ -612,6 +605,7 @@ dependencies = [
  "chrono",
  "clap",
  "cloudflare",
+ "ddns-shared",
  "hmac",
  "rand 0.9.2",
  "serde",
@@ -626,6 +620,10 @@ dependencies = [
 [[package]]
 name = "ddns-shared"
 version = "0.1.0"
+dependencies = [
+ "dotenvy",
+ "thiserror",
+]
 
 [[package]]
 name = "der"

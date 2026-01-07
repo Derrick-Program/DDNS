@@ -1,7 +1,7 @@
 [workspace.metadata.crane]
 name = "ddns-workspace"
 [workspace]
-members = ["gen/client", "gen/server", "crates/ddns-client", "crates/ddns-server", "crates/ddns-shared", "crates/ddns-config"]
+members = ["gen/client", "gen/server", "crates/ddns-client", "crates/ddns-server", "crates/ddns-shared"]
 resolver = "2"
 [workspace.package]
 version = "0.1.0"
@@ -10,7 +10,7 @@ authors = ["YanKai Lin <dlin12457@gmail.com>"]
 description = "A Dynamic DNS service implemented in Rust"
 license = "MIT OR Apache-2.0"
 categories = ["network-programming", "dns"]
-keywords = ["cloudflare", "api", "client"]
+keywords = ["cloudflare", "api", "client","server", "dynamic-dns", "ddns", "rust"]
 [workspace.dependencies]
 anyhow = "1.0.99"
 argon2 = "0.5.3"
@@ -30,5 +30,4 @@ serde_json = "1.0.142"
 thiserror = "2.0.14"
 tokio = { version = "1.47.1", features = ["macros", "rt-multi-thread"] }
 tonic-prost = "0.14.1"
-ddns-config = { path = "crates/ddns-config" }
 ddns-shared = { path = "crates/ddns-shared" }

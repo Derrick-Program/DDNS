@@ -30,3 +30,4 @@ sqlx = { version = "0.8.6", default-features = false, features = [
 tokio = { workspace = true }
 uuid = { version = "1.18.1", features = ["v4", "serde"] }
 thiserror = { workspace = true }
+ddns-shared = { workspace = true }

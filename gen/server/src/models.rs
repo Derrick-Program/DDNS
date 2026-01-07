@@ -71,6 +71,13 @@ pub fn check_xss_map<T>(v: &std::collections::HashMap<String, T>) -> std::result
 
 
 
+    #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+    #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+    pub struct UpdatesUpdatePathParams {
+                pub record_id: String,
+    }
+
+
 
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
@@ -118,12 +125,83 @@ impl From<models::ErrorResponse> for AuthLogin200Response {
 
 
 
+/// Enumeration of values.
+/// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
+/// which helps with FFI.
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
+#[repr(C)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
+pub enum ErrorCode {
+    #[serde(rename = "INVALID_CREDENTIALS")]
+    InvalidCredentials,
+    #[serde(rename = "TOKEN_EXPIRED")]
+    TokenExpired,
+    #[serde(rename = "TOKEN_REVOKED")]
+    TokenRevoked,
+    #[serde(rename = "UNAUTHORIZED")]
+    Unauthorized,
+    #[serde(rename = "FORBIDDEN")]
+    Forbidden,
+    #[serde(rename = "NOT_FOUND")]
+    NotFound,
+    #[serde(rename = "VALIDATION_ERROR")]
+    ValidationError,
+    #[serde(rename = "RATE_LIMITED")]
+    RateLimited,
+    #[serde(rename = "INTERNAL_ERROR")]
+    InternalError,
+}
+
+impl validator::Validate for ErrorCode
+{
+    fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
+        std::result::Result::Ok(())
+    }
+}
+
+impl std::fmt::Display for ErrorCode {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match *self {
+            ErrorCode::InvalidCredentials => write!(f, "INVALID_CREDENTIALS"),
+            ErrorCode::TokenExpired => write!(f, "TOKEN_EXPIRED"),
+            ErrorCode::TokenRevoked => write!(f, "TOKEN_REVOKED"),
+            ErrorCode::Unauthorized => write!(f, "UNAUTHORIZED"),
+            ErrorCode::Forbidden => write!(f, "FORBIDDEN"),
+            ErrorCode::NotFound => write!(f, "NOT_FOUND"),
+            ErrorCode::ValidationError => write!(f, "VALIDATION_ERROR"),
+            ErrorCode::RateLimited => write!(f, "RATE_LIMITED"),
+            ErrorCode::InternalError => write!(f, "INTERNAL_ERROR"),
+        }
+    }
+}
+
+impl std::str::FromStr for ErrorCode {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        match s {
+            "INVALID_CREDENTIALS" => std::result::Result::Ok(ErrorCode::InvalidCredentials),
+            "TOKEN_EXPIRED" => std::result::Result::Ok(ErrorCode::TokenExpired),
+            "TOKEN_REVOKED" => std::result::Result::Ok(ErrorCode::TokenRevoked),
+            "UNAUTHORIZED" => std::result::Result::Ok(ErrorCode::Unauthorized),
+            "FORBIDDEN" => std::result::Result::Ok(ErrorCode::Forbidden),
+            "NOT_FOUND" => std::result::Result::Ok(ErrorCode::NotFound),
+            "VALIDATION_ERROR" => std::result::Result::Ok(ErrorCode::ValidationError),
+            "RATE_LIMITED" => std::result::Result::Ok(ErrorCode::RateLimited),
+            "INTERNAL_ERROR" => std::result::Result::Ok(ErrorCode::InternalError),
+            _ => std::result::Result::Err(format!(r#"Value not valid: {s}"#)),
+        }
+    }
+}
+
+
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ErrorResponse {
     #[serde(rename = "code")]
-          #[validate(custom(function = "check_xss_string"))]
-    pub code: String,
+          #[validate(nested)]
+    pub code: models::ErrorCode,
 
     #[serde(rename = "message")]
           #[validate(custom(function = "check_xss_string"))]
@@ -140,7 +218,7 @@ pub struct ErrorResponse {
 
 impl ErrorResponse {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
-    pub fn new(code: String, message: String, ) -> ErrorResponse {
+    pub fn new(code: models::ErrorCode, message: String, ) -> ErrorResponse {
         ErrorResponse {
  code,
  message,
@@ -155,9 +233,7 @@ impl ErrorResponse {
 impl std::fmt::Display for ErrorResponse {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
-
-            Some("code".to_string()),
-            Some(self.code.to_string()),
+            // Skipping code in query parameter serialization
 
 
             Some("message".to_string()),
@@ -188,7 +264,7 @@ impl std::str::FromStr for ErrorResponse {
         #[derive(Default)]
         #[allow(dead_code)]
         struct IntermediateRep {
-            pub code: Vec<String>,
+            pub code: Vec<models::ErrorCode>,
             pub message: Vec<String>,
             pub request_id: Vec<String>,
         }
@@ -209,7 +285,7 @@ impl std::str::FromStr for ErrorResponse {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "code" => intermediate_rep.code.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "code" => intermediate_rep.code.push(<models::ErrorCode as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
                     "message" => intermediate_rep.message.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
@@ -263,49 +339,6 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<ErrorRespons
     }
 }
 
-
-
-/// Enumeration of values.
-/// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
-/// which helps with FFI.
-#[allow(non_camel_case_types, clippy::large_enum_variant)]
-#[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
-#[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
-pub enum IpFamily {
-    #[serde(rename = "v4")]
-    V4,
-    #[serde(rename = "v6")]
-    V6,
-}
-
-impl validator::Validate for IpFamily
-{
-    fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
-        std::result::Result::Ok(())
-    }
-}
-
-impl std::fmt::Display for IpFamily {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match *self {
-            IpFamily::V4 => write!(f, "v4"),
-            IpFamily::V6 => write!(f, "v6"),
-        }
-    }
-}
-
-impl std::str::FromStr for IpFamily {
-    type Err = String;
-
-    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        match s {
-            "v4" => std::result::Result::Ok(IpFamily::V4),
-            "v6" => std::result::Result::Ok(IpFamily::V6),
-            _ => std::result::Result::Err(format!(r#"Value not valid: {s}"#)),
-        }
-    }
-}
 
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
@@ -1193,17 +1226,9 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<TokenPair> {
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct UpdateRecordRequest {
-    #[serde(rename = "recordId")]
-          #[validate(custom(function = "check_xss_string"))]
-    pub record_id: String,
-
     #[serde(rename = "ip")]
           #[validate(custom(function = "check_xss_string"))]
     pub ip: String,
-
-    #[serde(rename = "family")]
-          #[validate(nested)]
-    pub family: models::IpFamily,
 
     /// Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "detectedBy")]
@@ -1217,11 +1242,9 @@ pub struct UpdateRecordRequest {
 
 impl UpdateRecordRequest {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
-    pub fn new(record_id: String, ip: String, family: models::IpFamily, ) -> UpdateRecordRequest {
+    pub fn new(ip: String, ) -> UpdateRecordRequest {
         UpdateRecordRequest {
- record_id,
  ip,
- family,
  detected_by: None,
         }
     }
@@ -1234,14 +1257,8 @@ impl std::fmt::Display for UpdateRecordRequest {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
 
-            Some("recordId".to_string()),
-            Some(self.record_id.to_string()),
-
-
             Some("ip".to_string()),
             Some(self.ip.to_string()),
-
-            // Skipping family in query parameter serialization
 
 
             self.detected_by.as_ref().map(|detected_by| {
@@ -1268,9 +1285,7 @@ impl std::str::FromStr for UpdateRecordRequest {
         #[derive(Default)]
         #[allow(dead_code)]
         struct IntermediateRep {
-            pub record_id: Vec<String>,
             pub ip: Vec<String>,
-            pub family: Vec<models::IpFamily>,
             pub detected_by: Vec<String>,
         }
 
@@ -1290,11 +1305,7 @@ impl std::str::FromStr for UpdateRecordRequest {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "recordId" => intermediate_rep.record_id.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
-                    #[allow(clippy::redundant_clone)]
                     "ip" => intermediate_rep.ip.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
-                    #[allow(clippy::redundant_clone)]
-                    "family" => intermediate_rep.family.push(<models::IpFamily as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
                     "detectedBy" => intermediate_rep.detected_by.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing UpdateRecordRequest".to_string())
@@ -1307,9 +1318,7 @@ impl std::str::FromStr for UpdateRecordRequest {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(UpdateRecordRequest {
-            record_id: intermediate_rep.record_id.into_iter().next().ok_or_else(|| "recordId missing in UpdateRecordRequest".to_string())?,
             ip: intermediate_rep.ip.into_iter().next().ok_or_else(|| "ip missing in UpdateRecordRequest".to_string())?,
-            family: intermediate_rep.family.into_iter().next().ok_or_else(|| "family missing in UpdateRecordRequest".to_string())?,
             detected_by: intermediate_rep.detected_by.into_iter().next(),
         })
     }

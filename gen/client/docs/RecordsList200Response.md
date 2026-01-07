@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **records** | [**Vec<models::RecordInfo>**](RecordInfo.md) |  | 
-**code** | **String** |  | 
+**code** | [**models::ErrorCode**](ErrorCode.md) |  | 
 **message** | **String** |  | 
 **request_id** | Option<**String**> |  | [optional]
 

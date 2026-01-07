@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **old_content** | Option<**String**> |  | [optional]
 **new_content** | **String** |  | 
 **updated_at** | **String** |  | 
-**code** | **String** |  | 
+**code** | [**models::ErrorCode**](ErrorCode.md) |  | 
 **message** | **String** |  | 
 **request_id** | Option<**String**> |  | [optional]
 

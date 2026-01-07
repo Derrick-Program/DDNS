@@ -59,8 +59,6 @@ pub enum UpdatesUpdateResponse {
 #[async_trait]
 #[allow(clippy::ptr_arg)]
 pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHandler<E> {
-    type Claims;
-
     /// AuthLogin - POST /auth/login
     async fn auth_login(
     &self,
@@ -98,17 +96,16 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     method: &Method,
     host: &Host,
     cookies: &CookieJar,
-        claims: &Self::Claims,
     ) -> Result<RecordsListResponse, E>;
 
-    /// UpdatesUpdate - POST /records:update
+    /// UpdatesUpdate - POST /records/{recordId}:update
     async fn updates_update(
     &self,
     
     method: &Method,
     host: &Host,
     cookies: &CookieJar,
-        claims: &Self::Claims,
+      path_params: &models::UpdatesUpdatePathParams,
             body: &models::UpdateRecordRequest,
     ) -> Result<UpdatesUpdateResponse, E>;
 }

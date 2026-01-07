@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **refresh_token** | **String** |  | 
 **token_type** | **String** |  | 
 **expires_in_sec** | **i32** |  | 
-**code** | **String** |  | 
+**code** | [**models::ErrorCode**](ErrorCode.md) |  | 
 **message** | **String** |  | 
 **request_id** | Option<**String**> |  | [optional]
 

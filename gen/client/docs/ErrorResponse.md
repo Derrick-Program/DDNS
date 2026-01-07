@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**code** | **String** |  | 
+**code** | [**models::ErrorCode**](ErrorCode.md) |  | 
 **message** | **String** |  | 
 **request_id** | Option<**String**> |  | [optional]
 

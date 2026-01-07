@@ -17,29 +17,29 @@ use crate::{models::check_xss_string, models::check_xss_vec_string, models::chec
 
 
 /// Setup API Server.
-pub fn new<I, A, E, C>(api_impl: I) -> Router
+pub fn new<I, A, E>(api_impl: I) -> Router
 where
     I: AsRef<A> + Clone + Send + Sync + 'static,
-    A: apis::default::Default<E, Claims = C> + apis::ApiAuthBasic<Claims = C> + Send + Sync + 'static,
+    A: apis::default::Default<E> + Send + Sync + 'static,
     E: std::fmt::Debug + Send + Sync + 'static,
-    C: Send + Sync + 'static,
+    
 {
     // build our application with a route
     Router::new()
         .route("/auth/login",
-            post(auth_login::<I, A, E, C>)
+            post(auth_login::<I, A, E>)
         )
         .route("/auth/logout",
-            post(auth_logout::<I, A, E, C>)
+            post(auth_logout::<I, A, E>)
         )
         .route("/auth/refresh",
-            post(auth_refresh::<I, A, E, C>)
+            post(auth_refresh::<I, A, E>)
         )
         .route("/records",
-            get(records_list::<I, A, E, C>)
+            get(records_list::<I, A, E>)
         )
-        .route("/records:update",
-            post(updates_update::<I, A, E, C>)
+        .route("/records/{record_id}:update",
+            post(updates_update::<I, A, E>)
         )
         .with_state(api_impl)
 }
@@ -68,7 +68,7 @@ Ok((
 }
 /// AuthLogin - POST /auth/login
 #[tracing::instrument(skip_all)]
-async fn auth_login<I, A, E, C>(
+async fn auth_login<I, A, E>(
   method: Method,
   host: Host,
   cookies: CookieJar,
@@ -77,7 +77,7 @@ async fn auth_login<I, A, E, C>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default<E, Claims = C> + Send + Sync,
+    A: apis::default::Default<E> + Send + Sync,
     E: std::fmt::Debug + Send + Sync + 'static,
         {
 
@@ -168,7 +168,7 @@ Ok((
 }
 /// AuthLogout - POST /auth/logout
 #[tracing::instrument(skip_all)]
-async fn auth_logout<I, A, E, C>(
+async fn auth_logout<I, A, E>(
   method: Method,
   host: Host,
   cookies: CookieJar,
@@ -177,7 +177,7 @@ async fn auth_logout<I, A, E, C>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default<E, Claims = C> + Send + Sync,
+    A: apis::default::Default<E> + Send + Sync,
     E: std::fmt::Debug + Send + Sync + 'static,
         {
 
@@ -268,7 +268,7 @@ Ok((
 }
 /// AuthRefresh - POST /auth/refresh
 #[tracing::instrument(skip_all)]
-async fn auth_refresh<I, A, E, C>(
+async fn auth_refresh<I, A, E>(
   method: Method,
   host: Host,
   cookies: CookieJar,
@@ -277,7 +277,7 @@ async fn auth_refresh<I, A, E, C>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default<E, Claims = C> + Send + Sync,
+    A: apis::default::Default<E> + Send + Sync,
     E: std::fmt::Debug + Send + Sync + 'static,
         {
 
@@ -356,28 +356,19 @@ Ok((
 }
 /// RecordsList - GET /records
 #[tracing::instrument(skip_all)]
-async fn records_list<I, A, E, C>(
+async fn records_list<I, A, E>(
   method: Method,
   host: Host,
   cookies: CookieJar,
-  headers: HeaderMap,
  State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default<E, Claims = C>+ apis::ApiAuthBasic<Claims = C> + Send + Sync,
+    A: apis::default::Default<E> + Send + Sync,
     E: std::fmt::Debug + Send + Sync + 'static,
         {
 
 
-    // Authentication
-    let claims_in_auth_header = api_impl.as_ref().extract_claims_from_auth_header(apis::BasicAuthKind::Bearer, &headers, "authorization").await;
-    let claims = None
-             .or(claims_in_auth_header)
-          ;
-    let Some(claims) = claims else {
-        return response_with_status_code_only(StatusCode::UNAUTHORIZED);
-    };
 
 
       #[allow(clippy::redundant_closure)]
@@ -401,7 +392,6 @@ let result = api_impl.as_ref().records_list(
       &method,
       &host,
       &cookies,
-        &claims,
   ).await;
 
   let mut response = Response::builder();
@@ -448,53 +438,51 @@ let result = api_impl.as_ref().records_list(
 
 #[tracing::instrument(skip_all)]
 fn updates_update_validation(
+  path_params: models::UpdatesUpdatePathParams,
         body: models::UpdateRecordRequest,
 ) -> std::result::Result<(
+  models::UpdatesUpdatePathParams,
         models::UpdateRecordRequest,
 ), ValidationErrors>
 {
+  path_params.validate()?;
               let b = UpdatesUpdateBodyValidator { body: &body };
               b.validate()?;
 
 Ok((
+  path_params,
     body,
 ))
 }
-/// UpdatesUpdate - POST /records:update
+/// UpdatesUpdate - POST /records/{recordId}:update
 #[tracing::instrument(skip_all)]
-async fn updates_update<I, A, E, C>(
+async fn updates_update<I, A, E>(
   method: Method,
   host: Host,
   cookies: CookieJar,
-  headers: HeaderMap,
+  Path(path_params): Path<models::UpdatesUpdatePathParams>,
  State(api_impl): State<I>,
           Json(body): Json<models::UpdateRecordRequest>,
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default<E, Claims = C>+ apis::ApiAuthBasic<Claims = C> + Send + Sync,
+    A: apis::default::Default<E> + Send + Sync,
     E: std::fmt::Debug + Send + Sync + 'static,
         {
 
 
-    // Authentication
-    let claims_in_auth_header = api_impl.as_ref().extract_claims_from_auth_header(apis::BasicAuthKind::Bearer, &headers, "authorization").await;
-    let claims = None
-             .or(claims_in_auth_header)
-          ;
-    let Some(claims) = claims else {
-        return response_with_status_code_only(StatusCode::UNAUTHORIZED);
-    };
 
 
       #[allow(clippy::redundant_closure)]
       let validation = tokio::task::spawn_blocking(move ||
     updates_update_validation(
+        path_params,
           body,
     )
   ).await.unwrap();
 
   let Ok((
+    path_params,
       body,
   )) = validation else {
     return Response::builder()
@@ -510,7 +498,7 @@ let result = api_impl.as_ref().updates_update(
       &method,
       &host,
       &cookies,
-        &claims,
+        &path_params,
               &body,
   ).await;
 
