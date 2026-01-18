@@ -4,11 +4,11 @@ All URIs are relative to *https://ddns.duacodie.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**auth_login**](DefaultApi.md#auth_login) | **POST** /auth/login | 
-[**auth_logout**](DefaultApi.md#auth_logout) | **POST** /auth/logout | 
-[**auth_refresh**](DefaultApi.md#auth_refresh) | **POST** /auth/refresh | 
-[**records_list**](DefaultApi.md#records_list) | **GET** /records | 
-[**updates_update**](DefaultApi.md#updates_update) | **POST** /records/{recordId}:update | 
+[**auth_login**](DefaultApi.md#auth_login) | **POST** /v1/auth/login | 
+[**auth_logout**](DefaultApi.md#auth_logout) | **POST** /v1/auth/logout | 
+[**auth_refresh**](DefaultApi.md#auth_refresh) | **POST** /v1/auth/refresh | 
+[**records_list**](DefaultApi.md#records_list) | **GET** /v1/records | 
+[**updates_update**](DefaultApi.md#updates_update) | **POST** /v1/records/{recordId}:update | 
 
 
 

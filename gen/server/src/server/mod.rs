@@ -26,19 +26,19 @@ where
 {
     // build our application with a route
     Router::new()
-        .route("/auth/login",
+        .route("/v1/auth/login",
             post(auth_login::<I, A, E>)
         )
-        .route("/auth/logout",
+        .route("/v1/auth/logout",
             post(auth_logout::<I, A, E>)
         )
-        .route("/auth/refresh",
+        .route("/v1/auth/refresh",
             post(auth_refresh::<I, A, E>)
         )
-        .route("/records",
+        .route("/v1/records",
             get(records_list::<I, A, E>)
         )
-        .route("/records/{record_id}:update",
+        .route("/v1/records/{record_id}:update",
             post(updates_update::<I, A, E>)
         )
         .with_state(api_impl)
@@ -66,7 +66,7 @@ Ok((
     body,
 ))
 }
-/// AuthLogin - POST /auth/login
+/// AuthLogin - POST /v1/auth/login
 #[tracing::instrument(skip_all)]
 async fn auth_login<I, A, E>(
   method: Method,
@@ -166,7 +166,7 @@ Ok((
     body,
 ))
 }
-/// AuthLogout - POST /auth/logout
+/// AuthLogout - POST /v1/auth/logout
 #[tracing::instrument(skip_all)]
 async fn auth_logout<I, A, E>(
   method: Method,
@@ -266,7 +266,7 @@ Ok((
     body,
 ))
 }
-/// AuthRefresh - POST /auth/refresh
+/// AuthRefresh - POST /v1/auth/refresh
 #[tracing::instrument(skip_all)]
 async fn auth_refresh<I, A, E>(
   method: Method,
@@ -354,7 +354,7 @@ fn records_list_validation(
 Ok((
 ))
 }
-/// RecordsList - GET /records
+/// RecordsList - GET /v1/records
 #[tracing::instrument(skip_all)]
 async fn records_list<I, A, E>(
   method: Method,
@@ -454,7 +454,7 @@ Ok((
     body,
 ))
 }
-/// UpdatesUpdate - POST /records/{recordId}:update
+/// UpdatesUpdate - POST /v1/records/{recordId}:update
 #[tracing::instrument(skip_all)]
 async fn updates_update<I, A, E>(
   method: Method,

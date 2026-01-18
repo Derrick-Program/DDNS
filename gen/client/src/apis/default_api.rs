@@ -55,7 +55,7 @@ pub async fn auth_login(configuration: &configuration::Configuration, login_requ
     // add a prefix to parameters to efficiently prevent name collisions
     let p_body_login_request = login_request;
 
-    let uri_str = format!("{}/auth/login", configuration.base_path);
+    let uri_str = format!("{}/v1/auth/login", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -92,7 +92,7 @@ pub async fn auth_logout(configuration: &configuration::Configuration, logout_re
     // add a prefix to parameters to efficiently prevent name collisions
     let p_body_logout_request = logout_request;
 
-    let uri_str = format!("{}/auth/logout", configuration.base_path);
+    let uri_str = format!("{}/v1/auth/logout", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -129,7 +129,7 @@ pub async fn auth_refresh(configuration: &configuration::Configuration, refresh_
     // add a prefix to parameters to efficiently prevent name collisions
     let p_body_refresh_request = refresh_request;
 
-    let uri_str = format!("{}/auth/refresh", configuration.base_path);
+    let uri_str = format!("{}/v1/auth/refresh", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -164,7 +164,7 @@ pub async fn auth_refresh(configuration: &configuration::Configuration, refresh_
 
 pub async fn records_list(configuration: &configuration::Configuration, ) -> Result<models::RecordsList200Response, Error<RecordsListError>> {
 
-    let uri_str = format!("{}/records", configuration.base_path);
+    let uri_str = format!("{}/v1/records", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -201,7 +201,7 @@ pub async fn updates_update(configuration: &configuration::Configuration, record
     let p_path_record_id = record_id;
     let p_body_update_record_request = update_record_request;
 
-    let uri_str = format!("{}/records/{recordId}:update", configuration.base_path, recordId=crate::apis::urlencode(p_path_record_id));
+    let uri_str = format!("{}/v1/records/{recordId}:update", configuration.base_path, recordId=crate::apis::urlencode(p_path_record_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {

@@ -26,11 +26,11 @@ All URIs are relative to *https://ddns.duacodie.com*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*DefaultApi* | [**auth_login**](docs/DefaultApi.md#auth_login) | **POST** /auth/login | 
-*DefaultApi* | [**auth_logout**](docs/DefaultApi.md#auth_logout) | **POST** /auth/logout | 
-*DefaultApi* | [**auth_refresh**](docs/DefaultApi.md#auth_refresh) | **POST** /auth/refresh | 
-*DefaultApi* | [**records_list**](docs/DefaultApi.md#records_list) | **GET** /records | 
-*DefaultApi* | [**updates_update**](docs/DefaultApi.md#updates_update) | **POST** /records/{recordId}:update | 
+*DefaultApi* | [**auth_login**](docs/DefaultApi.md#auth_login) | **POST** /v1/auth/login | 
+*DefaultApi* | [**auth_logout**](docs/DefaultApi.md#auth_logout) | **POST** /v1/auth/logout | 
+*DefaultApi* | [**auth_refresh**](docs/DefaultApi.md#auth_refresh) | **POST** /v1/auth/refresh | 
+*DefaultApi* | [**records_list**](docs/DefaultApi.md#records_list) | **GET** /v1/records | 
+*DefaultApi* | [**updates_update**](docs/DefaultApi.md#updates_update) | **POST** /v1/records/{recordId}:update | 
 
 
 ## Documentation For Models

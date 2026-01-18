@@ -59,7 +59,7 @@ pub enum UpdatesUpdateResponse {
 #[async_trait]
 #[allow(clippy::ptr_arg)]
 pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHandler<E> {
-    /// AuthLogin - POST /auth/login
+    /// AuthLogin - POST /v1/auth/login
     async fn auth_login(
     &self,
     
@@ -69,7 +69,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
             body: &models::LoginRequest,
     ) -> Result<AuthLoginResponse, E>;
 
-    /// AuthLogout - POST /auth/logout
+    /// AuthLogout - POST /v1/auth/logout
     async fn auth_logout(
     &self,
     
@@ -79,7 +79,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
             body: &models::LogoutRequest,
     ) -> Result<AuthLogoutResponse, E>;
 
-    /// AuthRefresh - POST /auth/refresh
+    /// AuthRefresh - POST /v1/auth/refresh
     async fn auth_refresh(
     &self,
     
@@ -89,7 +89,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
             body: &models::RefreshRequest,
     ) -> Result<AuthRefreshResponse, E>;
 
-    /// RecordsList - GET /records
+    /// RecordsList - GET /v1/records
     async fn records_list(
     &self,
     
@@ -98,7 +98,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     cookies: &CookieJar,
     ) -> Result<RecordsListResponse, E>;
 
-    /// UpdatesUpdate - POST /records/{recordId}:update
+    /// UpdatesUpdate - POST /v1/records/{recordId}:update
     async fn updates_update(
     &self,
     
