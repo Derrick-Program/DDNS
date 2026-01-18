@@ -1,34 +1,29 @@
 [package]
 name = "ddns-server"
-version = { workspace = true }
-edition = { workspace = true }
-authors = { workspace = true }
-description = { workspace = true }
-license = { workspace = true }
-categories = { workspace = true }
-keywords = { workspace = true }
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description.workspace = true
+license.workspace = true
+categories.workspace = true
+keywords.workspace = true
 
 [dependencies]
-anyhow = { workspace = true }
-clap = { workspace = true }
-base64 = { workspace = true }
-chrono = { workspace = true, features = ["serde"] }
+anyhow.workspace = true
+clap.workspace = true
+base64.workspace = true
+chrono.workspace = true
+chrono-tz.workspace = true
 cloudflare = "0.14.0"
 hmac = "0.12.1"
-rand = { workspace = true }
+rand.workspace = true
 serde = { version = "1.0.219", features = ["derive"] }
-serde_json = { workspace = true }
+serde_json.workspace = true
 sha2 = "0.10.9"
-sqlx = { version = "0.8.6", default-features = false, features = [
-    "sqlite",
-    "macros",
-    "chrono",
-    "ipnet",
-    "uuid",
-    "runtime-tokio"
-] }
-tokio = { workspace = true }
+sqlx.workspace = true
+tokio.workspace = true
 uuid = { version = "1.18.1", features = ["v4", "serde"] }
-thiserror = { workspace = true }
-ddns-shared = { workspace = true }
-async-trait = { workspace = true }
+thiserror.workspace = true
+ddns-shared.workspace = true
+async-trait.workspace = true
+zeroize.workspace = true

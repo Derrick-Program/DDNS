@@ -17,6 +17,7 @@ argon2 = "0.5.3"
 atty = "0.2.14"
 base64 = "0.22.1"
 chrono = { version = "0.4.41", features = ["serde"] }
+chrono-tz = {version = "0.10.4", features = ["serde"] }
 cliclack = "0.3.6"
 cloudflare = "0.14.0"
 clap = { version = "4.5.53", features = ["derive", "env"] }
@@ -32,3 +33,12 @@ tokio = { version = "1.47.1", features = ["macros", "rt-multi-thread"] }
 tonic-prost = "0.14.1"
 ddns-shared = { path = "crates/ddns-shared" }
 async-trait = "0.1.89"
+zeroize = "1.8.2"
+sqlx = { version = "0.8.6", default-features = false, features = [
+    "sqlite",
+    "macros",
+    "chrono",
+    "ipnet",
+    "uuid",
+    "runtime-tokio"
+] }

@@ -16,6 +16,8 @@ pub enum DdnsServerError {
     UserManagementError(String),
     #[error("提供者錯誤: {0}")]
     DnsProviderError(#[from] DnsError),
+    #[error("儲存錯誤: {0}")]
+    StoreError(#[from] StoreError),
 }
 
 #[derive(thiserror::Error, Debug)]
@@ -38,4 +40,14 @@ pub enum DnsError {
     Provider(String),
     #[error("transient error: {0}")]
     Transient(String),
+}
+
+#[derive(thiserror::Error, Debug)]
+pub enum StoreError {
+    #[error("database error: {0}")]
+    DatabaseError(#[from] sqlx::Error),
+    #[error("not found: {0}")]
+    NotFound(String),
+    #[error("conflict: {0}")]
+    Conflict(String),
 }

@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS records (
   owner_user_id  TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
 
   -- zone_id        TEXT NOT NULL,     -- cloudflare zone id (keep as-is, no FK required)
-  cf_record_id   TEXT NOT NULL,     -- cloudflare dns record id
+  providers_record_id   TEXT NOT NULL,     -- cloudflare dns record id
 
   name           TEXT NOT NULL,     -- fqdn
   type           TEXT NOT NULL CHECK (type IN ('A', 'AAAA')),
@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS records (
   created_at     TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at     TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-  UNIQUE(owner_user_id, cf_record_id)
+  UNIQUE(owner_user_id, providers_record_id)
 );
 
 CREATE TRIGGER IF NOT EXISTS trg_records_updated_at
@@ -129,24 +129,17 @@ CREATE INDEX IF NOT EXISTS idx_records_allow_upd ON records(owner_user_id, allow
 -- ----------------------------
 CREATE TABLE IF NOT EXISTS record_updates (
   id            INTEGER PRIMARY KEY AUTOINCREMENT,
-
   record_id     TEXT NOT NULL REFERENCES records(id) ON DELETE CASCADE,
   user_id       TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-
   old_content   TEXT NULL,
   new_content   TEXT NOT NULL,
-
   detected_by   TEXT NULL CHECK (detected_by IS NULL OR detected_by IN ('ifconfig','stun','http','cloudflare-trace')),
-
   source_ip     TEXT NULL,
   user_agent    TEXT NULL,
-
-  -- if you want to log Cloudflare API result
-  cf_request_id TEXT NULL,
+  providers_request_id TEXT NULL,
   success       INTEGER NOT NULL CHECK (success IN (0,1)),
   error_code    TEXT NULL,
   error_message TEXT NULL,
-
   created_at    TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
