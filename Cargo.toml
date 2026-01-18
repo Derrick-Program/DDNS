@@ -31,3 +31,4 @@ thiserror = "2.0.14"
 tokio = { version = "1.47.1", features = ["macros", "rt-multi-thread"] }
 tonic-prost = "0.14.1"
 ddns-shared = { path = "crates/ddns-shared" }
+async-trait = "0.1.89"
