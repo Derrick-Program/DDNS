@@ -12,12 +12,9 @@ using TypeSpec.OpenAPI;
 @server("https://ddns.duacodie.com", "Production")
 namespace Ddns;
 
-
-// ---- Security Scheme ----
 @useAuth(BearerAuth)
 interface _AuthProtected {}
 
-// ---- Common ----
 enum ErrorCode {
   INVALID_CREDENTIALS,
   TOKEN_EXPIRED,
@@ -85,29 +82,32 @@ model UpdateRecordResponse {
   updatedAt: utcDateTime;
 }
 
-// ---- Interfaces ----
-interface Auth {
-  @route("/auth/login")
-  @post
-  login(@body body: LoginRequest): TokenPair | ErrorResponse;
+@route("/v1")
+namespace Ddns.V1 {
+  @route("/auth")
+  interface Auth {
+    @route("/login")
+    @post
+    login(@body body: LoginRequest): TokenPair | ErrorResponse;
 
-  @route("/auth/refresh")
-  @post
-  refresh(@body body: RefreshRequest): TokenPair | ErrorResponse;
+    @route("/refresh")
+    @post
+    refresh(@body body: RefreshRequest): TokenPair | ErrorResponse;
 
-  @route("/auth/logout")
-  @post
-  logout(@body body: LogoutRequest): {} | ErrorResponse;
-}
+    @route("/logout")
+    @post
+    logout(@body body: LogoutRequest): {} | ErrorResponse;
+  }
 
-interface Records extends _AuthProtected {
-  @route("/records")
-  @get
-  list(): ListRecordsResponse | ErrorResponse;
-}
+  interface Records extends _AuthProtected {
+    @route("/records")
+    @get
+    list(): ListRecordsResponse | ErrorResponse;
+  }
 
-interface Updates extends _AuthProtected {
-  @route("/records/{recordId}:update")
-  @post
-  update(@path recordId: string, @body body: UpdateRecordRequest): UpdateRecordResponse | ErrorResponse;
+  interface Updates extends _AuthProtected {
+    @route("/records/{recordId}:update")
+    @post
+    update(@path recordId: string, @body body: UpdateRecordRequest): UpdateRecordResponse | ErrorResponse;
+  }
 }
